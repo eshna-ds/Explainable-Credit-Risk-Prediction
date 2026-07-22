@@ -1,1 +1,6 @@
-data/raw/
+# Ignore only dataset files
+data/raw/*.csv
+
+# Keep the folder itself
+!data/raw/.gitkeep
+!data/raw/README.md
