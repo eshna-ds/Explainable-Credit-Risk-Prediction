@@ -1,5 +1,6 @@
 # Ignore only dataset files
 data/raw/*.csv
+data/processed/*.csv
 
 # Keep the folder itself
 !data/raw/.gitkeep
