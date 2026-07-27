@@ -37,6 +37,21 @@ def load_model():
 
 model, feature_columns = load_model()
 
+st.write(type(feature_columns))
+
+if not isinstance(feature_columns, list):
+    st.write(feature_columns)
+
+
+from collections import Counter
+
+duplicates = [col for col, count in Counter(feature_columns).items() if count > 1]
+st.write("Duplicate columns:", duplicates)
+st.write("Number of duplicates:", len(duplicates))
+
+st.write(feature_columns.count("CREDIT_INCOME_RATIO"))
+st.write(feature_columns.count("ANNUITY_INCOME_RATIO"))
+
 # --------------------------------------------------
 # SIDEBAR
 # --------------------------------------------------
@@ -120,9 +135,9 @@ predict = st.sidebar.button("Predict")
 # --------------------------------------------------
 
 input_df = pd.DataFrame(
-    0,
-    index=[0],
-    columns=feature_columns
+    np.zeros((1, len(feature_columns))),
+    columns=feature_columns,
+    dtype=float
 )
 
 # --------------------------------------------------
@@ -130,9 +145,10 @@ input_df = pd.DataFrame(
 # --------------------------------------------------
 
 def set_feature(name, value):
-
     if name in input_df.columns:
-        input_df.loc[0, name] = value
+        st.write(f"{name} dtype:", input_df[name].dtype)
+        st.write(f"Setting value:", value)
+        input_df.at[0, name] = float(value)
 
 # --------------------------------------------------
 # NUMERICAL FEATURES
@@ -152,6 +168,7 @@ set_feature("AGE_YEARS", age)
 
 set_feature("EMPLOYMENT_YEARS", employment)
 
+st.write(input_df.dtypes[input_df.columns == "CREDIT_INCOME_RATIO"])
 set_feature("CREDIT_INCOME_RATIO", credit / income if income != 0 else 0)
 
 set_feature("ANNUITY_INCOME_RATIO", annuity / income if income != 0 else 0)
