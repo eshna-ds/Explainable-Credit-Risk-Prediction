@@ -139,6 +139,7 @@ input_df = pd.DataFrame(
     columns=feature_columns,
     dtype=float
 )
+st.dataframe(input_df.dtypes.astype(str))
 
 # --------------------------------------------------
 # SAFE SET FUNCTION
@@ -517,7 +518,8 @@ if predict:
         ]
     
     })
-    
+    summary["Value"] = summary["Value"].astype(str)
+    summary = summary.astype(str)
     st.dataframe(summary, use_container_width=True)
     
     st.markdown("---")
